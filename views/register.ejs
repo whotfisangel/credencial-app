@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8" />
+  <title>Registro de Alumno</title>
+</head>
+<body>
+<%- include('partials/nav') %>
+  <h2>Registro de alumno</h2>
+  <form action="/register" method="POST">
+    <label>Nombre:</label><br>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Matrícula:</label><br>
+    <input type="text" name="matricula" required><br><br>
+
+    <label>Contraseña:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <label>Carrera:</label><br>
+    <select name="carrera_id" required>
+      <% carreras.forEach(c => { %>
+        <option value="<%= c.id %>"><%= c.nombre %></option>
+      <% }); %>
+    </select><br><br>
+
+    <button type="submit">Registrarse</button>
+  </form>
+  <% if (error) { %>
+    <p style="color:red"><%= error %></p>
+  <% } %>
+</body>
+</html>

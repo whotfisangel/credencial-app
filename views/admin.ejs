@@ -1,0 +1,31 @@
+<%- include('partials/nav') %>
+<h2>Panel de Administración</h2>
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<table border="1">
+  <tr>
+    <th>Matrícula</th>
+    <th>Nombre</th>
+    <th>Puede Generar</th>
+    <th>Vigencia</th>
+    <th>Acción</th>
+  </tr>
+  <% alumnos.forEach(a => { %>
+    <tr>
+      <td><%= a.matricula %></td>
+      <td><%= a.nombre %></td>
+      <td><%= a.puede_generar %></td>
+      <td><%= a.vigencia_hasta ? a.vigencia_hasta.toISOString().slice(0,10) : '---' %></td>
+      <td>
+        <form method="POST" action="/admin/activar">
+          <input type="hidden" name="alumno_id" value="<%= a.id %>">
+          <button type="submit">Activar / Renovar</button>
+        </form>
+      </td>
+    </tr>
+  <% }); %>
+</table>
