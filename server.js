@@ -9,7 +9,8 @@ const session = require('express-session');
 const { sql, config } = require('./db');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
 
 app.use(session({
     secret: 'clave-secreta-supersegura',
@@ -215,4 +216,6 @@ app.post('/admin/activar', async (req, res) => {
     res.redirect('/admin');
 });
 
-app.listen(port, () => console.log(`✅ Servidor corriendo en http://localhost:${port}`));
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+});
