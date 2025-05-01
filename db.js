@@ -1,15 +1,14 @@
-﻿const sql = require('mssql');
+﻿require('dotenv').config({ path: 'V.env' });  // usa tu archivo personalizado
 
-const config = {
-    server: 'localhost',  // O 'EKT-LLL' si esa es la máquina o servidor donde está SQL
-    instanceName: 'SQLEXPRESS',  // Esto se usa solo si la instancia de SQL Server está nombrada así
-    database: 'CredencialesCUM',
-    user: 'E',  // Usuario que has creado
-    password: '123456789',  // Contraseña del usuario
-    options: {
-        trustServerCertificate: true,  // Esto es útil si tienes problemas con el certificado SSL
-        encrypt: false  // Cambiar a `true` si estás usando cifrado en tu conexión
-    }
-};
+const { Client } = require('pg');
 
-module.exports = { sql, config };
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
+
+client.connect()
+    .then(() => console.log('✅ Conexión exitosa a PostgreSQL en Render'))
+    .catch(err => console.error('❌ Error al conectar a la base de datos:', err));
+
+module.exports = client;
