@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="/style.css">
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generador de Credenciales</title>
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-<%- include('partials/nav') %>
+  <%- include('partials/nav') %>
   <div class="formulario">
     <h1>Generador de Credencial</h1>
     <form action="/generar" method="POST" enctype="multipart/form-data">
@@ -33,5 +32,4 @@
     </form>
   </div>
 </body>
-
 </html>

@@ -1,16 +1,27 @@
-﻿const sql = require('mssql');
-const { config } = require('./db');  // Importar la configuración
+﻿const express = require('express');
+const client = require('./db');
 
-async function testConnection() {
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+
+// Ruta de prueba
+app.get('/', (req, res) => {
+    res.send('Servidor corriendo correctamente ✅');
+});
+
+// Ruta que consulta las carreras
+app.get('/api/carreras', async (req, res) => {
     try {
-        // Intenta conectarte a la base de datos
-        const pool = await sql.connect(config);
-        console.log('Conexión exitosa a la base de datos!');
-        pool.close();  // Cierra la conexión
+        const result = await client.query('SELECT * FROM Carreras');
+        res.json(result.rows);
     } catch (err) {
-        console.error('Error al conectar a la base de datos:', err);
+        console.error('❌ Error al consultar Carreras:', err);
+        res.status(500).send('Error en el servidor o base de datos');
     }
-}
+});
 
-// Ejecutar la prueba
-testConnection();
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor iniciado en http://localhost:${PORT}`);
+});

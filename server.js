@@ -163,7 +163,12 @@ app.post('/generar', upload.single('foto'), async (req, res) => {
         doc.image('public/plantilla.png', 0, 0, { width: 1670, height: 490 });
 
         doc.image(fotoPath, 45, 180, { width: 200, height: 220 });
-        doc.font('Helvetica').fillColor('black').fontSize(28);
+        const fontPath = path.join(__dirname, 'public', 'Fonts', 'arialbd.TTF');
+        doc.registerFont('ArialBold', fontPath);
+        doc.font('ArialBold').fillColor('black').fontSize(28);
+
+
+
         doc.text(`${nombre}`, 260, 300);
         doc.text(`Matrícula: ${matricula}`, 260, 360);
         doc.text(carreraCompleta, 270, 160, {

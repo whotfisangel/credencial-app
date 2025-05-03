@@ -1,31 +1,46 @@
-<%- include('partials/nav') %>
-<h2>Panel de Administración</h2>
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
   <link rel="stylesheet" href="/style.css">
 </head>
+<body>
+  <%- include('partials/nav') %>
 
-<table border="1">
-  <tr>
-    <th>Matrícula</th>
-    <th>Nombre</th>
-    <th>Puede Generar</th>
-    <th>Vigencia</th>
-    <th>Acción</th>
-  </tr>
-  <% alumnos.forEach(a => { %>
-    <tr>
-      <td><%= a.matricula %></td>
-      <td><%= a.nombre %></td>
-      <td><%= a.puede_generar %></td>
-      <td><%= a.vigencia_hasta ? a.vigencia_hasta.toISOString().slice(0,10) : '---' %></td>
-      <td>
-        <form method="POST" action="/admin/activar">
-          <input type="hidden" name="alumno_id" value="<%= a.id %>">
-          <button type="submit">Activar / Renovar</button>
-        </form>
-      </td>
-    </tr>
-  <% }); %>
-</table>
+  <div class="formulario">
+    <h1>Panel de Administración</h1>
+
+    <div style="overflow-x: auto;">
+      <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>Matrícula</th>
+            <th>Nombre</th>
+            <th>Puede Generar</th>
+            <th>Vigencia</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% alumnos.forEach(a => { %>
+            <tr>
+              <td><%= a.matricula %></td>
+              <td><%= a.nombre %></td>
+              <td><%= a.puede_generar %></td>
+              <td><%= a.vigencia_hasta ? a.vigencia_hasta.toISOString().slice(0,10) : '---' %></td>
+              <td>
+                <form method="POST" action="/admin/activar">
+                  <input type="hidden" name="alumno_id" value="<%= a.id %>">
+                  <button type="submit">Activar / Renovar</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

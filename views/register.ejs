@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="/style.css">
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro de Alumno</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-<%- include('partials/nav') %>
-  <h2>Registro de alumno</h2>
-  <form action="/register" method="POST">
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre" required><br><br>
+  <%- include('partials/nav') %>
 
-    <label>Matrícula:</label><br>
-    <input type="text" name="matricula" required><br><br>
+  <div class="formulario">
+    <h1>Registro de alumno</h1>
+    <form action="/register" method="POST">
+      <label>Nombre:</label>
+      <input type="text" name="nombre" required>
 
-    <label>Contraseña:</label><br>
-    <input type="password" name="password" required><br><br>
+      <label>Matrícula:</label>
+      <input type="text" name="matricula" required>
 
-    <label>Carrera:</label><br>
-    <select name="carrera_id" required>
-      <% carreras.forEach(c => { %>
-        <option value="<%= c.id %>"><%= c.nombre %></option>
-      <% }); %>
-    </select><br><br>
+      <label>Contraseña:</label>
+      <input type="password" name="password" required>
 
-    <button type="submit">Registrarse</button>
-  </form>
-  <% if (error) { %>
-    <p style="color:red"><%= error %></p>
-  <% } %>
+      <label>Carrera:</label>
+      <select name="carrera_id" required>
+        <% carreras.forEach(c => { %>
+          <option value="<%= c.id %>"><%= c.nombre %></option>
+        <% }); %>
+      </select>
+
+      <button type="submit">Registrarse</button>
+    </form>
+
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+  </div>
 </body>
 </html>

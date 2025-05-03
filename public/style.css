@@ -96,3 +96,95 @@ nav {
         nav a:hover {
             text-decoration: underline;
         }
+
+@media (max-width: 768px) {
+    html, body {
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .formulario {
+        width: 95%;
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 24px;
+        box-shadow: none;
+        border-radius: 6px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 1rem;
+        display: block;
+        margin-top: 10px;
+        color: #003366;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="file"],
+    select {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        margin-top: 10px;
+    }
+
+    header {
+        font-size: 1.2rem;
+        padding: 12px 0;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+        nav a {
+            font-size: 0.95rem;
+            padding: 6px 10px;
+            display: inline-block;
+        }
+}
+
+@media (max-width: 480px) {
+    html, body {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    label {
+        font-size: 0.95rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+}
