@@ -7,6 +7,8 @@ const QRCode = require('qrcode');
 const fs = require('fs');
 const session = require('express-session');
 const client = require('./db');  // ✅ PostgreSQL
+const isRender = process.env.RENDER === 'true';
+const tempFolder = isRender ? '/tmp' : path.join(__dirname, 'uploads');
 
 
 const app = express();
@@ -20,9 +22,13 @@ app.use(session({
 }));
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'uploads/'),
+    destination: (req, file, cb) => {
+        if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, { recursive: true });
+        cb(null, tempFolder);
+    },
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
+
 const upload = multer({ storage });
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -151,7 +157,9 @@ app.post('/generar', upload.single('foto'), async (req, res) => {
         const carreraCompleta = `${nombreCarrera}\nRVOE: ${rvoe}`;
 
         const vigencia = calcularVigencia();
-        const qrImagePath = `uploads/qr-${Date.now()}.png`;
+        const qrImagePath = path.join(tempFolder, `qr-${Date.now()}.png`);
+
+
         await QRCode.toFile(qrImagePath, `Credencial válida hasta: ${vigencia}\nNombre: ${nombre}\nMatrícula: ${matricula}`);
 
         console.log('📄 Generando PDF con nombre:', nombre);
@@ -159,9 +167,9 @@ app.post('/generar', upload.single('foto'), async (req, res) => {
         res.setHeader('Content-disposition', `attachment; filename=credencial-${Date.now()}.pdf`);
         res.setHeader('Content-type', 'application/pdf');
         const doc = new PDFDocument({ size: [1670, 490], margin: 0 });
-        doc.pipe(res);
-        doc.image('public/plantilla.png', 0, 0, { width: 1670, height: 490 });
-
+        doc.pipe(res); 
+        const plantillaPath = path.join(__dirname, 'public', 'plantilla.png');
+        doc.image(plantillaPath, 0, 0, { width: 1670, height: 490 });
         doc.image(fotoPath, 45, 180, { width: 200, height: 220 });
         const fontPath = path.join(__dirname, 'public', 'Fonts', 'arialbd.TTF');
         doc.registerFont('ArialBold', fontPath);
