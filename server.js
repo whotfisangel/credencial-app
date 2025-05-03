@@ -169,7 +169,7 @@ app.post('/generar', upload.single('foto'), async (req, res) => {
         const plantillaPath = path.join(__dirname, 'public', 'plantilla.png');
         doc.image(plantillaPath, 0, 0, { width: 1670, height: 490 });
         doc.image(fotoPath, 45, 180, { width: 200, height: 220 });
-        const fontPath = path.join(__dirname, 'public', 'Fonts', 'arialbd.TTF');
+        const fontPath = path.join(__dirname, 'public', 'Fonts', 'arialbd.ttf'); // ← así con ".ttf"
         doc.registerFont('ArialBold', fontPath);
         doc.font('ArialBold').fillColor('black').fontSize(28);
 
