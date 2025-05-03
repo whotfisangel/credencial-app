@@ -157,11 +157,9 @@ app.post('/generar', upload.single('foto'), async (req, res) => {
         const carreraCompleta = `${nombreCarrera}\nRVOE: ${rvoe}`;
 
         const vigencia = calcularVigencia();
-        const qrImagePath = path.join(tempFolder, `qr-${Date.now()}.png`);
-
-
-        await QRCode.toFile(qrImagePath, `Credencial válida hasta: ${vigencia}\nNombre: ${nombre}\nMatrícula: ${matricula}`);
-
+        const qrBuffer = await QRCode.toBuffer(
+            `Credencial válida hasta: ${vigencia}\nNombre: ${nombre}\nMatrícula: ${matricula}`
+        );
         console.log('📄 Generando PDF con nombre:', nombre);
 
         res.setHeader('Content-disposition', `attachment; filename=credencial-${Date.now()}.pdf`);
@@ -185,7 +183,8 @@ app.post('/generar', upload.single('foto'), async (req, res) => {
         });
 
         doc.text(`Vigencia: ${vigencia}`, 880, 450);
-        doc.image(qrImagePath, 1310, 90, { width: 240 });
+        doc.image(qrBuffer, 1310, 90, { width: 240 });
+
         doc.end();
     } catch (err) {
         console.error('❌ Error al generar la credencial:', err);
